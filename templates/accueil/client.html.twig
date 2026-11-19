@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace{% endblock %}
+
+{% block body %}
+    <h1>Bonjour {{ app.user.prenom }}</h1>
+
+    <h2>Mes vouchers</h2>
+    <p>Vous n'avez pas encore de voucher. Adressez-vous au personnel du cybercafé.</p>
+{% endblock %}
