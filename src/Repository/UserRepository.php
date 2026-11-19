@@ -32,4 +32,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Comptes clients uniquement (ni personnel ni admin), triés par nom.
+     *
+     * @return list<User>
+     */
+    public function findClients(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.roles NOT LIKE :personnel')
+            ->andWhere('u.roles NOT LIKE :admin')
+            ->setParameter('personnel', '%'.User::ROLE_PERSONNEL.'%')
+            ->setParameter('admin', '%'.User::ROLE_ADMIN.'%')
+            ->orderBy('u.nom', 'ASC')
+            ->addOrderBy('u.prenom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

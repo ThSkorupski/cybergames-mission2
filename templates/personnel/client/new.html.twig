@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau client{% endblock %}
+
+{% block body %}
+    <h1>Nouveau client</h1>
+    {{ include('personnel/client/_form.html.twig', {bouton: 'Créer le compte'}) }}
+{% endblock %}

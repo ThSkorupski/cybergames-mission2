@@ -24,11 +24,18 @@
                 <a href="{{ path('app_accueil') }}">Accueil</a>
                 {% if is_granted('ROLE_PERSONNEL') %}
                     <a href="{{ path('app_personnel_accueil') }}">Tableau de bord</a>
+                    <a href="{{ path('app_client_index') }}">Clients</a>
                 {% endif %}
                 <span>{{ app.user.prenom }} {{ app.user.nom }}</span>
                 <a href="{{ path('app_logout') }}">Se déconnecter</a>
             </nav>
         {% endif %}
+
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash flash-{{ type }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
 
         {% block body %}{% endblock %}
     </body>
