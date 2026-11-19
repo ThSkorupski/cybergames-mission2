@@ -47,6 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nom = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Le prénom est obligatoire.')]
     #[Assert\Length(max: 100)]
     private string $prenom = '';
 
@@ -113,6 +114,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return in_array(self::ROLE_PERSONNEL, $this->roles, true)
             || in_array(self::ROLE_ADMIN, $this->roles, true);
+    }
+
+    /** Un client n'est ni du personnel ni un admin. */
+    public function estClient(): bool
+    {
+        return !$this->estPersonnel();
     }
 
     public function getPassword(): string

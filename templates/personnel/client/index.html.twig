@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clients{% endblock %}
+
+{% block body %}
+    <h1>Clients</h1>
+
+    <p><a href="{{ path('app_client_new') }}">Nouveau client</a></p>
+
+    {% if clients is empty %}
+        <p>Aucun client pour le moment.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Pseudo</th>
+                    <th>E-mail</th>
+                    <th>Inscrit le</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                    <tr>
+                        <td>{{ client.nom }}</td>
+                        <td>{{ client.prenom }}</td>
+                        <td>{{ client.pseudo }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.dateCreation|date('d/m/Y') }}</td>
+                        <td>{{ client.actif ? 'Actif' : 'Désactivé' }}</td>
+                        <td>
+                            <a href="{{ path('app_client_edit', {id: client.id}) }}">Modifier</a>
+                            <form method="post" action="{{ path('app_client_delete', {id: client.id}) }}" style="display:inline"
+                                  onsubmit="return confirm('Supprimer ce client ? S\'il a déjà des vouchers, son compte sera seulement désactivé.');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('supprimer_client_' ~ client.id) }}">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

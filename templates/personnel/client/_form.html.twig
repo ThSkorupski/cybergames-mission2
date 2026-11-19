@@ -1,0 +1,5 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">{{ bouton|default('Enregistrer') }}</button>
+    <a href="{{ path('app_client_index') }}">Annuler</a>
+{{ form_end(form) }}
