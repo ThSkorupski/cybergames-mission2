@@ -25,6 +25,7 @@
                 {% if is_granted('ROLE_PERSONNEL') %}
                     <a href="{{ path('app_personnel_accueil') }}">Tableau de bord</a>
                     <a href="{{ path('app_client_index') }}">Clients</a>
+                    <a href="{{ path('app_machine_index') }}">Machines</a>
                 {% endif %}
                 <span>{{ app.user.prenom }} {{ app.user.nom }}</span>
                 <a href="{{ path('app_logout') }}">Se déconnecter</a>

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Jeux{% endblock %}
+
+{% block body %}
+    <h1>Jeux</h1>
+
+    <p>
+        <a href="{{ path('app_jeu_new') }}">Nouveau jeu</a>
+        · <a href="{{ path('app_machine_index') }}">Retour aux machines</a>
+    </p>
+
+    {% if jeux is empty %}
+        <p>Aucun jeu pour le moment.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Éditeur</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jeu in jeux %}
+                    <tr>
+                        <td>{{ jeu.titre }}</td>
+                        <td>{{ jeu.editeur }}</td>
+                        <td>
+                            <a href="{{ path('app_jeu_edit', {id: jeu.id}) }}">Modifier</a>
+                            <form method="post" action="{{ path('app_jeu_delete', {id: jeu.id}) }}" style="display:inline"
+                                  onsubmit="return confirm('Supprimer ce jeu ? Il sera retiré de toutes les machines.');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('supprimer_jeu_' ~ jeu.id) }}">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

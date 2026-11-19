@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories de machines{% endblock %}
+
+{% block body %}
+    <h1>Catégories de machines</h1>
+
+    <p>
+        <a href="{{ path('app_categorie_new') }}">Nouvelle catégorie</a>
+        · <a href="{{ path('app_machine_index') }}">Retour aux machines</a>
+    </p>
+
+    {% if categories is empty %}
+        <p>Aucune catégorie pour le moment.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Libellé</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categorie in categories %}
+                    <tr>
+                        <td>{{ categorie.libelle }}</td>
+                        <td>{{ categorie.description }}</td>
+                        <td>
+                            <a href="{{ path('app_categorie_edit', {id: categorie.id}) }}">Modifier</a>
+                            <form method="post" action="{{ path('app_categorie_delete', {id: categorie.id}) }}" style="display:inline"
+                                  onsubmit="return confirm('Supprimer cette catégorie ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('supprimer_categorie_' ~ categorie.id) }}">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

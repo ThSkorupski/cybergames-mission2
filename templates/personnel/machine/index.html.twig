@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Machines{% endblock %}
+
+{% block body %}
+    <h1>Machines</h1>
+
+    <p>
+        <a href="{{ path('app_machine_new') }}">Nouvelle machine</a>
+        · <a href="{{ path('app_categorie_index') }}">Catégories</a>
+        · <a href="{{ path('app_jeu_index') }}">Jeux</a>
+    </p>
+
+    {% if machines is empty %}
+        <p>Aucune machine pour le moment.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Catégorie</th>
+                    <th>Statut</th>
+                    <th>Jeux</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine in machines %}
+                    <tr>
+                        <td>{{ machine.nom }}</td>
+                        <td>{{ machine.categorie }}</td>
+                        <td>{{ machine.statut.libelle }}</td>
+                        <td>{{ machine.jeux|join(', ') }}</td>
+                        <td>
+                            <a href="{{ path('app_machine_edit', {id: machine.id}) }}">Modifier</a>
+                            <form method="post" action="{{ path('app_machine_delete', {id: machine.id}) }}" style="display:inline"
+                                  onsubmit="return confirm('Supprimer cette machine ? Si elle a déjà servi, elle sera seulement mise hors service.');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('supprimer_machine_' ~ machine.id) }}">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

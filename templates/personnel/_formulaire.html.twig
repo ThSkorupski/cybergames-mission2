@@ -1,0 +1,6 @@
+{# Formulaire générique. Variables : form, retour (nom de route de la liste), bouton (facultatif) #}
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">{{ bouton|default('Enregistrer') }}</button>
+    <a href="{{ path(retour) }}">Annuler</a>
+{{ form_end(form) }}
